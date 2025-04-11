@@ -1,12 +1,19 @@
 package com.example.compi;
 
-import org.antlr.v4.runtime.*;
-import org.antlr.v4.runtime.tree.*;
+
 import org.antlr.v4.gui.TreeViewer;
-import org.antlr.v4.gui.Trees;
+import org.antlr.v4.runtime.*;
+import org.antlr.v4.runtime.tree.ParseTree;
+
 import javax.swing.*;
 import java.io.IOException;
-import java.util.*;
+
+
+import java.util.List;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Arrays;
 
 class Simbolo {
     String tipo;
@@ -48,7 +55,7 @@ public class Main {
             CharStream input = CharStreams.fromFileName("src/main/resources/input.txt");
 
             // Analizador léxico
-            Lex4er5Lexer lexer = new Lex4er5Lexer(input);
+            TheLexerLexer lexer = new TheLexerLexer(input);
             CommonTokenStream tokens = new CommonTokenStream(lexer);
 
             // Definimos la tabla de símbolos y los errores léxicos
@@ -68,7 +75,7 @@ public class Main {
             tokens.fill();
             for (Token token : tokens.getTokens()) {
                 String tokenTexto = token.getText();
-                String tokenTipo = Lex4er5.VOCABULARY.getSymbolicName(token.getType());
+                String tokenTipo = TheLexerLexer.VOCABULARY.getSymbolicName(token.getType());
                 int tokenLinea = token.getLine();
 
                 if (tokenTipo == null) continue; // Evitar procesar tokens inválidos
@@ -101,7 +108,7 @@ public class Main {
             }
 
             // Ahora analizamos la sintaxis utilizando el parser
-            Lex4er5Parser parser = new Lex4er5Parser(tokens);
+            TheLexerParser parser = new TheLexerParser(tokens);
             ParseTree tree = parser.program(); // Ajusta a tu regla principal
 
             // Creamos la ventana para mostrar el árbol sintáctico
